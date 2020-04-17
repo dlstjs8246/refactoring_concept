@@ -27,6 +27,13 @@ public class TestMain {
 		System.out.println(c.statement());
 		System.out.println();
 		System.out.println(c1.statement());
-		
+		System.out.println();
+		System.out.println(c.htmlStatement());
+		System.out.println();
+		System.out.println(c1.htmlStatement());
+		System.out.println();
+		System.out.println(c.xmlStatement());
+		System.out.println();
+		System.out.println(c1.xmlStatement());
 	}
 }

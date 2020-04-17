@@ -3,6 +3,10 @@ package refactoring_concept;
 import java.util.ArrayList;
 import java.util.List;
 
+import refactoring_concept.statement.HtmlStatement;
+import refactoring_concept.statement.TextStatement;
+import refactoring_concept.statement.XmlStatement;
+
 public class Customer {
 	private String name;
 	private List<Rental> rentals = new ArrayList<>();
@@ -12,27 +16,34 @@ public class Customer {
 	public void addRental(Rental rental) {
 		this.rentals.add(rental);
 	}
-	
-	
 	public String getName() {
 		return name;
 	}
+	public List<Rental> getRentals() {
+		return rentals;
+	}
 	public String statement() {
-		double totalAmount = 0;
+		return new TextStatement().value(this);
+	}
+	public String htmlStatement() {
+		return new HtmlStatement().value(this);
+	}
+	public String xmlStatement() {
+		return new XmlStatement().value(this);
+	}
+	public int getTotalFrequentRenterPoints() {
 		int frequentRenterPoints = 0;
-		
-		StringBuilder result = new StringBuilder(getName() + " 고객님의 대여 기록\n");
 		for(Rental each : rentals) {
-			frequentRenterPoints++;
-			if((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) && each.getDaysRented() > 1) frequentRenterPoints++;
-			result.append("\t" + each.getMovie().getTitle());
-			result.append("\t" + String.valueOf(each.getCharge()) + "\n");
-			
+			frequentRenterPoints += each.getFrequentRenterPoints();
+		}
+		return frequentRenterPoints;
+		
+	}
+	public double getTotalCharge() {
+		double totalAmount = 0;
+		for(Rental each : rentals) {
 			totalAmount += each.getCharge();
 		}
-		result.append("누적 대여료 : " + String.valueOf(totalAmount) + "\n");
-		result.append("적립 포인트 : " + String.valueOf(frequentRenterPoints));
-		
-		return result.toString();
+		return totalAmount;
 	}
 }
